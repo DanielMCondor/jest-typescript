@@ -4,7 +4,7 @@ import type * as TestFunctions from '../user';
 jest.mock("../lib/storage");
 
 const { saveUserName, getUserName } = jest.requireActual<typeof TestFunctions>("../user")
-const storage1 = storage as jest.Mocked<typeof storage>;
+const mock = storage as jest.Mocked<typeof storage>;
 
 
 describe("example user", () => {
@@ -17,10 +17,12 @@ describe("example user", () => {
 
     test.only("test get", () => {
         const username = "Jeremy"
-        storage1.get.mockReturnValueOnce(username);
+        mock.get.mockReturnValueOnce(username);
         const result = getUserName()
         
+        // console.log('result: ', result);
         // expect(result).toBe(username);
+
         expect(storage.get).toHaveBeenCalledTimes(1);
         expect(storage.get).toHaveBeenCalledWith({key: 'userName'});
     })
